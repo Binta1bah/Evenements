@@ -1,13 +1,19 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Information detaillees de l'article</title>
 </head>
 
+
+
 <body>
+
+
     <nav class="bg-gray-800">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
@@ -104,59 +110,82 @@
         </div>
     </nav>
 
-    @auth('association')
+
+
+    <div class="sm:mx-auto sm:w-full my-14">
+        <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+            Detail de l'évenement : {{ $evenement->libelle }}
+        </h2>
+    </div>
+
     <main class="container mx-auto mt-8">
         <div class="flex flex-wrap justify-between">
             <div class="w-full md:w-8/12 px-4 mb-8">
-
+                <img src="{{asset($evenement->image)}}" alt="Featured Image" class="w-full h-64 object-cover rounded">
                 <div class="flex flex-wrap justify-between items-center my-4">
-                    <h2 class="text-4xl font-bold ">Nom de l'association: {{ Auth::user()->nom }}</h2>
-                    <div class="flex  gap-2 flex-wrap ">
-                        <span class="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600"> Notre Slogan: {{ Auth::user()->slogan }}</span>
+                    <h2 class="text-4xl font-bold ">{{ $evenement->libelle }}</h2>
 
-                    </div>
-                    <button class="bg-green-200 font-bold text-stone-800 rounded-lg text-xs text-center self-center px-3 py-2 mx-2">
-                        Creéée le: {{ Auth::user()->dateCreation }}
-                    </button>
-
-                </div>
-                <br>
+                    @if ($evenement->is_clotured == 0)
+                    <form action="{{ route('cloturer', ['id' => $evenement->id]) }}" method="post">
+                        @csrf
 
 
-                <h2 class="text-4xl font-bold ">Mes evenements</h2>
+                        <button class="bg-green-200 font-bold text-stone-800 rounded-lg text-xs text-center self-center px-3 py-2 mx-2">
 
-                <div class="flex flex-wrap -mx-4">
+                            Cloturer l'evenement
+                        </button>
+                    </form>
+                    @else
+                    <h2 class="bg-green-200 font-bold text-stone-800 rounded-lg text-xs text-center self-center px-3 py-2 mx-2">Ce évenement est cloturé</h2>
+                    @endif
 
-                    @foreach($evenements as $eve)
-                    <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-4">
-                        <div class="bg-white p-4 rounded shadow">
-                            <!-- Image de l'événement -->
-                            <a href="{{ route('details', ['id' => $eve->id]) }}">
-                                <img src="{{ asset($eve->image) }}" alt="Event Image" class="w-full h-40 object-cover rounded mb-2">
-                            </a>
 
-                            <!-- Date de l'événement -->
-                            <h3 class="text-lg font-bold">Evenement: {{ $eve->libelle }}</h3>
-                            <p class="text-gray-600 text-sm">Date: {{ $eve->dateEvenement }}</p>
 
-                            <!-- Nom de l'événement -->
 
-                        </div>
-                    </div>
-                    @endforeach
 
                 </div>
 
-
-
+                <p class="text-gray-700 mb-4 font-bold">{{$evenement->description}}</p>
+                <p class="text-gray-700 mb-4">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                    dolore
+                    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.</p>
+                <p class="text-gray-700 mb-4">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                    doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+                    architecto beatae vitae dicta sunt explicabo.</p>
 
             </div>
 
             {{-- Aside Part --}}
+            <div class="w-full md:w-4/12 px-4 mb-8">
+                <div class=" px-4 py-6 rounded">
+                    <h3 class="text-lg font-bold mb-2">Date de l'évenement: {{ $evenement->dateEvenement }}</h3>
 
-            @endauth
+
+                    <div class="flex  gap-2 flex-wrap ">
+                        <span class="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">Date limite d'inscription: {{ $evenement->dateLimitEvenement }}</span>
+
+                    </div>
+                </div>
+                <div class="mt-5">
+
+
+                    <a href="{{ route('modifdetail', ['id' => $evenement->id]) }}" class="bg-green-500  text-white font-bold py-2 px-4 rounded mr-3">
+                        Modifier l'évenemnt
+                    </a>
+
+
+
+                    <a href="{{ route('supprimer', ['id' => $evenement->id]) }}" class="bg-red-500 text-white font-bold py-2 px-4 rounded">
+                        Supprimer l'évenement
+                    </a>
+
+
+                </div>
+            </div>
         </div>
     </main>
+
 </body>
 
 </html>

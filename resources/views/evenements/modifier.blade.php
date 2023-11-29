@@ -97,44 +97,52 @@
 <x-guest-layout>
 
 
-    <form method="POST" action="{{ route('ajout') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('modifier', ['id' => $evenement->id]) }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Name -->
         <div>
             <x-input-label for="libelle" :value="__('Libelle')" />
-            <x-text-input id="libelle" class="block mt-1 w-full" type="text" name="libelle" :value="old('libelle')" required autofocus autocomplete="libelle" />
+            <x-text-input id="libelle" class="block mt-1 w-full" type="text" name="libelle" :value="$evenement->libelle" required autofocus autocomplete="libelle" />
             <x-input-error :messages="$errors->get('libelle')" class="mt-2" />
         </div><br>
 
         <div>
             <x-input-label for="description" :value="__('Description')" />
-            <x-text-input id="description" class="block mt-1 w-full" type="text" name="description" :value="old('description')" required autofocus autocomplete="description" />
+            <x-text-input id="description" class="block mt-1 w-full" type="text" name="description" :value="$evenement->description" required autofocus autocomplete="description" />
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div><br>
 
         <div>
             <x-input-label for="dateLimitIns" :value="__('Date_Limite_Incription')" />
-            <x-text-input id="dateLimitIns" class="block mt-1 w-full" type="date" name="dateLimitEvenement" :value="old('dateLimitIns')" required autofocus autocomplete="dateLimitIns" />
+            <x-text-input id="dateLimitIns" class="block mt-1 w-full" type="date" name="dateLimitEvenement" :value="$evenement->dateLimitEvenement" required autofocus autocomplete="dateLimitIns" />
             <x-input-error :messages="$errors->get('dateLimitIns')" class="mt-2" />
         </div><br>
 
 
+        <div class="mb-3"> <label class="form-label mt-3">Image actuelle</label>
+            <img src="{{ asset($evenement->image) }}" alt="Current Image" class="img-thumbnail" style="max-width: 100px;">
+        </div>
 
 
 
         <div>
             <x-input-label for="image" :value="__('Image')" />
-            <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" :value="old('image')" required autofocus autocomplete="image" />
+            <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" autofocus autocomplete="image" />
             <x-input-error :messages="$errors->get('image')" class="mt-2" />
         </div><br>
 
         <!-- dateEvenement Address -->
         <div class="mt-4">
             <x-input-label for="dateEvenement" :value="__('Date_Evenement')" />
-            <x-text-input id="dateEvenement" class="block mt-1 w-full" type="date" name="dateEvenement" :value="old('dateEvenement')" required autocomplete="username" />
+            <x-text-input id="dateEvenement" class="block mt-1 w-full" type="date" name="dateEvenement" :value="$evenement->dateEvenement" required autocomplete="username" />
             <x-input-error :messages="$errors->get('dateEvenement')" class="mt-2" />
         </div><br>
+
+        <!-- <div class="mt-4">
+            <x-input-label for="isPublic" :value="__('Cloturé ?')" />
+            <x-checkbox-input id="isPublic" name="isclotured" :checked="$evenement->is_clotured" />
+        </div> -->
 
         @auth('association')
         <input type="hidden" name="assos" value="{{ Auth::user()->id }}">
@@ -144,7 +152,7 @@
         </a>
 
         <x-primary-button class="ms-4">
-            {{ __('Ajouter') }}
+            {{ __('Modifier') }}
         </x-primary-button>
         </div>
     </form>

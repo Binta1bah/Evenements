@@ -14,6 +14,10 @@ class Association extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     protected $guard = 'association';
 
+    public function evenements()
+    {
+        return $this->hasMany(Evenement::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
