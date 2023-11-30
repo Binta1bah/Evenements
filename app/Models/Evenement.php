@@ -9,7 +9,7 @@ class Evenement extends Model
 {
     use HasFactory;
 
-    public function reservation()
+    public function reservations()
     {
         return $this->hasMany(Reservation::class);
     }

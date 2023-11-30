@@ -35,16 +35,16 @@
                     </button>
                 </div>
                 <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                    <!-- <div class="flex flex-shrink-0 items-center">
-                        <img class="h-8 w-auto" src="" alt="Your Company">
-                    </div> -->
+                    <div class="flex flex-shrink-0 items-center">
+                        <img class="h-8 w-auto" src="{{asset(Auth::user()->logo)}}" alt="Your Company">
+                    </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
                             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="{{route('acceuil')}}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Acceuil</a>
-                            <a href="{{route('dashboard')}}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Mes demandes</a>
-                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"></a>
-                            <form method="post" action="{{ route('logout') }}">
+                            <a href="{{route('assos.dashboard')}}" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Acceuil</a>
+                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Demandes</a>
+                            <a href="{{route('ajouterEvenement')}}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Ajouter un evenement</a>
+                            <form method="post" action="{{ route('assos.logout') }}">
                                 @csrf
 
                                 <x-responsive-nav-link :href="route('assos.logout')" onclick="event.preventDefault();
@@ -58,23 +58,23 @@
                     </div>
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <!-- <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View notifications</span>
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                         </svg>
-                    </button> -->
+                    </button>
 
                     <!-- Profile dropdown -->
                     <div class="relative ml-3">
-                        <!-- <div>
+                        <div>
                             <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
                                 <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                             </button>
-                        </div> -->
+                        </div>
 
                         <!--
             Dropdown menu, show/hide based on menu state.
@@ -104,7 +104,7 @@
         </div>
     </nav>
 
-    @auth
+    @auth('association')
     <main class="container mx-auto mt-8">
         <div class="flex flex-wrap justify-between">
             <div class="w-full md:w-8/12 px-4 mb-8">
@@ -113,12 +113,12 @@
                 <br>
 
 
-                <h2 class="text-4xl font-bold ">Evenements</h2>
+                <h2 class="text-4xl font-bold ">Mes Demandes</h2>
 
                 <div class="flex flex-wrap -mx-4">
 
                     @foreach($reservations as $reservation)
-                    @if (Auth::user()->id === $reservation->user_id)
+                    @if (Auth::user()->id === $reservation->evenement->association_id)
                     <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-4">
                         <div class="bg-white p-4 rounded shadow">
                             <!-- Image de l'événement -->
@@ -128,13 +128,25 @@
 
                             <!-- Date de l'événement -->
                             <h3 class="text-lg font-bold">Evenement: {{ $reservation->evenement->libelle }}</h3>
-                            <h3 class="text-lg font-bold">Date de l'evenement: {{ $reservation->evenement->dateEvenement }} </h3>
+                            <h3 class="text-lg font-bold">Demandeur: {{ $reservation->user->nom }} {{ $reservation->user->prenom }} </h3>
                             <h3 class="text-lg font-bold">Nombre de place: {{ $reservation->nombrePlace }}</h3>
                             <p class="text-gray-600 text-sm"></p>
 
                             <br>
-                            @if ($reservation->is_accepted === 0)
+                            @if ($reservation->is_accepted === 1)
+                            <form action="{{ route('refuser', ['id' => $reservation->id]) }}" method="post">
+                                @csrf
+                                <button class="bg-red-500 text-white font-bold py-2 px-4 rounded">
+                                    Refuser
+                                </button>
+                            </form>
+
+                            @elseif ($reservation->is_accepted === 0)
                             <h2 class="bg-green-200 font-bold text-stone-800 rounded-lg text-xs text-center self-center px-3 py-2 mx-2">Invitaion refusée</h2>
+
+
+                            <br>
+
 
                             @endif
 

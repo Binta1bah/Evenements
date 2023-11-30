@@ -13,7 +13,14 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $reservations = Reservation::with('user', 'evenement')->get();
+        return view('evenements.demandes', compact('reservations'));
+    }
+
+    public function index2()
+    {
+        $reservations = Reservation::with('user', 'evenement')->get();
+        return view('dashboard', compact('reservations'));
     }
 
     /**
@@ -41,8 +48,8 @@ class ReservationController extends Controller
         $revervation = new Reservation();
 
         $revervation->nombrePlace = $request->nbPlace;
-        $revervation->client = $request->client;
-        $revervation->evenement = $request->evenement;
+        $revervation->user_id = $request->client;
+        $revervation->evenement_id = $request->evenement;
 
         $revervation->save();
 
@@ -61,10 +68,27 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function refuser(string $id)
     {
-        //
+        $reservation = Reservation::findorFail($id);
+
+        $reservation->is_accepted = 0;
+        $reservation->update();
+
+        return back();
     }
+
+    // public function accepter(string $id)
+    // {
+    //     $reservation = Reservation::findorFail($id);
+
+    //     $reservation->is_accepted = 1;
+    //     $reservation->update();
+
+    //     return back();
+    // }
+
+
 
     /**
      * Update the specified resource in storage.

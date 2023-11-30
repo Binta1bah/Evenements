@@ -76,14 +76,25 @@ Route::get('/supprimerEve{id}', [EvenementController::class, 'destroy'])->middle
 
 Route::post('/Cloturer{id}', [EvenementController::class, 'edit'])->middleware(['auth:association'])->name('cloturer');
 
+Route::get('/evenement/demendes', [ReservationController::class, 'index'])->middleware(['auth:association', 'verified'])->name('demandes');
+
 
 
 //Route de gestion de reservation
 
-Route::get('/dashboard', [EvenementController::class, 'index2'])->middleware(['auth', 'verified'])->name('client.dashboard');
+Route::get('/dashboard', [ReservationController::class, 'index2'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard/acceuil', [EvenementController::class, 'index3'])->middleware(['auth', 'verified'])->name('acceuil');
+
 
 Route::get('/reserver/evenement{id}', [ReservationController::class, 'create'])->middleware(['auth', 'verified'])->name('reservation');
 
 Route::post('evenement/revervation', [ReservationController::class, 'store'])->middleware(['auth', 'verified'])->name('reserver');
 
 Route::get('evenement/revervation', [ReservationController::class, 'store'])->middleware(['auth', 'verified'])->name('reserver');
+
+// Route::post('/revervation{id}/accepter', [ReservationController::class, 'accepter'])->middleware(['auth:association', 'verified'])->name('accepter');
+// Route::get('/revervation{id}/accepter', [ReservationController::class, 'accepter'])->middleware(['auth', 'verified'])->name('accepter');
+
+
+Route::post('/revervation{id}/refuser', [ReservationController::class, 'refuser'])->middleware(['auth:association', 'verified'])->name('refuser');
+Route::get('/revervation{id}/refuser', [ReservationController::class, 'refuser'])->middleware(['auth:association', 'verified'])->name('refuser');

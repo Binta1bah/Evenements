@@ -42,7 +42,7 @@
                         <div class="flex space-x-4">
                             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                             <a href="{{route('assos.dashboard')}}" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Acceuil</a>
-                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"></a>
+                            <a href="{{route('demandes')}}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Demandes</a>
                             <a href="{{route('ajouterEvenement')}}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Ajouter un evenement</a>
                             <form method="post" action="{{ route('assos.logout') }}">
                                 @csrf
@@ -128,6 +128,7 @@
                 <div class="flex flex-wrap -mx-4">
 
                     @foreach($evenements as $eve)
+                    @if (Auth::user()->id === $eve->association_id)
                     <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-4">
                         <div class="bg-white p-4 rounded shadow">
                             <!-- Image de l'événement -->
@@ -143,6 +144,7 @@
 
                         </div>
                     </div>
+                    @endif
                     @endforeach
 
                 </div>

@@ -19,6 +19,13 @@ class EvenementController extends Controller
         return view('assos.dashboard', compact('evenements'));
     }
 
+    public function index3()
+    {
+        $evenements = Evenement::all();
+        // dd($evenements);
+        return view('welcome', compact('evenements'));
+    }
+
 
     public function index2()
     {
