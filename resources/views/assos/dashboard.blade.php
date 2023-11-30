@@ -123,7 +123,7 @@
                 <br>
 
 
-                <h2 class="text-4xl font-bold ">Mes evenements</h2>
+                <h2 class="text-4xl font-bold ">Bienvenue sur evens</h2>
 
                 <div class="flex flex-wrap -mx-4">
 

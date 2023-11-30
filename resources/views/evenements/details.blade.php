@@ -13,6 +13,7 @@
 
 <body>
 
+    @auth('association')
 
     <nav class="bg-gray-800">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -42,7 +43,7 @@
                 </div>
                 <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex flex-shrink-0 items-center">
-                        <img class="h-8 w-auto" src="{{asset(Auth::user()->logo)}}" alt="Your Company">
+                        <img class="h-8 w-auto" src="" alt="Your Company">
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
@@ -110,6 +111,8 @@
         </div>
     </nav>
 
+    @endauth
+
 
 
     <div class="sm:mx-auto sm:w-full my-14">
@@ -118,12 +121,16 @@
         </h2>
     </div>
 
+
+
     <main class="container mx-auto mt-8">
         <div class="flex flex-wrap justify-between">
             <div class="w-full md:w-8/12 px-4 mb-8">
                 <img src="{{asset($evenement->image)}}" alt="Featured Image" class="w-full h-64 object-cover rounded">
                 <div class="flex flex-wrap justify-between items-center my-4">
                     <h2 class="text-4xl font-bold ">{{ $evenement->libelle }}</h2>
+
+                    @auth('association')
 
                     @if ($evenement->is_clotured == 0)
                     <form action="{{ route('cloturer', ['id' => $evenement->id]) }}" method="post">
@@ -138,6 +145,8 @@
                     @else
                     <h2 class="bg-green-200 font-bold text-stone-800 rounded-lg text-xs text-center self-center px-3 py-2 mx-2">Ce évenement est cloturé</h2>
                     @endif
+
+                    @endauth
 
 
 
@@ -167,6 +176,8 @@
 
                     </div>
                 </div>
+
+                @auth('association')
                 <div class="mt-5">
 
 
@@ -179,6 +190,21 @@
                     <a href="{{ route('supprimer', ['id' => $evenement->id]) }}" class="bg-red-500 text-white font-bold py-2 px-4 rounded">
                         Supprimer l'évenement
                     </a>
+
+
+                </div>
+                @endauth
+
+                <div class="mt-5">
+
+                    @if ($evenement->is_clotured == 0)
+
+                    <a href="{{ route('reservation', ['id' => $evenement->id]) }}" class="bg-green-500  text-white font-bold py-2 px-4 rounded mr-3">
+                        S'inscrire à l'evenement
+                    </a>
+
+                    @endif
+
 
 
                 </div>

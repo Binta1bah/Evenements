@@ -24,7 +24,7 @@ class EvenementController extends Controller
     {
         $evenements = Evenement::all();
         // dd($evenements);
-        return view('dashboard', compact('evenements'));
+        return view('welcome', compact('evenements'));
     }
 
     /**

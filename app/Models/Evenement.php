@@ -9,6 +9,11 @@ class Evenement extends Model
 {
     use HasFactory;
 
+    public function reservation()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
     protected $fillable = [
         'libelle',
         'description',

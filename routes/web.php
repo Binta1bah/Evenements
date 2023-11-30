@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationController;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\Route;
 
@@ -16,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [EvenementController::class, 'index2']);
 
 Route::get('/assosLogin', function () {
     return view('auth.AssosLogin');
@@ -55,6 +54,9 @@ require __DIR__ . '/assosAuth.php';
 //     })->name('ajouterEvenement');
 // });
 
+
+// Routes de gestion d'evenement
+
 Route::get('/evenement/ajouter', function () {
     return view('evenements.ajouter');
 })->middleware(['auth:association'])->name('ajouterEvenement');
@@ -64,7 +66,7 @@ Route::post('/ajouterEvenement', [EvenementController::class, 'store'])->name('a
 
 Route::get('/ajouterEvenement', [EvenementController::class, 'store'])->name('ajout');
 
-Route::get('/DetailEvenement{id}', [EvenementController::class, 'show'])->middleware(['auth:association'])->name('details');
+Route::get('/DetailEvenement{id}', [EvenementController::class, 'show'])->name('details');
 
 Route::get('/modifier{id}', [EvenementController::class, 'showmodif'])->middleware(['auth:association'])->name('modifdetail');
 
@@ -76,6 +78,12 @@ Route::post('/Cloturer{id}', [EvenementController::class, 'edit'])->middleware([
 
 
 
-
+//Route de gestion de reservation
 
 Route::get('/dashboard', [EvenementController::class, 'index2'])->middleware(['auth', 'verified'])->name('client.dashboard');
+
+Route::get('/reserver/evenement{id}', [ReservationController::class, 'create'])->middleware(['auth', 'verified'])->name('reservation');
+
+Route::post('evenement/revervation', [ReservationController::class, 'store'])->middleware(['auth', 'verified'])->name('reserver');
+
+Route::get('evenement/revervation', [ReservationController::class, 'store'])->middleware(['auth', 'verified'])->name('reserver');

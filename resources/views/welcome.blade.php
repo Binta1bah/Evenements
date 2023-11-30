@@ -852,7 +852,52 @@
         </div>
         @endif
 
-        <h1 style="font-size: xx-large;">Bienvenue sur Gestion d'evenements</h1>
+
+
+        <main class="container mx-auto mt-8">
+            <div class="flex flex-wrap justify-between">
+
+
+
+                <h2 class="text-4xl font-bold ">Bienvenue sue Evens</h2>
+
+                <div class="flex flex-wrap -mx-4">
+
+                    @foreach($evenements as $eve)
+                    <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-4 mb-4">
+                        <div class="bg-white p-4 rounded shadow">
+                            <!-- Image de l'événement -->
+                            <a href="{{ route('details', ['id' => $eve->id]) }}">
+                                <img src="{{ asset($eve->image) }}" alt="Event Image" class="w-full h-40 object-cover rounded mb-2">
+                            </a>
+
+                            <!-- Date de l'événement -->
+                            <h3 class="text-lg font-bold">Evenement: {{ $eve->libelle }}</h3>
+                            <p class="text-gray-600 text-sm">Date: {{ $eve->dateEvenement }}</p>
+
+                            <!-- Nom de l'événement -->
+
+                        </div>
+                    </div>
+                    @endforeach
+
+                </div>
+
+
+
+
+            </div>
+
+            {{-- Aside Part --}}
+
+
+    </div>
+    </main>
+
+
+
+
+
     </div>
 </body>
 
