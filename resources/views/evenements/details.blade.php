@@ -196,7 +196,7 @@
                 @endauth
 
                 <div class="mt-5">
-
+                    @auth
                     @if ($evenement->is_clotured == 0)
 
                     <a href="{{ route('reservation', ['id' => $evenement->id]) }}" class="bg-green-500  text-white font-bold py-2 px-4 rounded mr-3">
@@ -204,6 +204,8 @@
                     </a>
 
                     @endif
+
+                    @endauth
 
 
 
