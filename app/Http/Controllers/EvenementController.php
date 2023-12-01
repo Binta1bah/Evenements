@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Association;
-use App\Models\Evenement;
-use Illuminate\Http\Request;
+use App\Mail\MailTest;
 use tidy;
+use App\Models\User;
+use App\Models\Evenement;
+use App\Models\Association;
+use Illuminate\Http\Request;
+use App\Notifications\EnvoiMailsReservation;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class EvenementController extends Controller
 {
@@ -76,9 +81,20 @@ class EvenementController extends Controller
 
         $evenement->image = "image/" . $imageName;
 
-        $evenement->save();
 
-        return back()->with('success', 'Ajout effectuée avec succes');
+
+
+
+        if ($evenement->save()) {
+            $users = User::all();
+            
+            // Notification::send($users, new EnvoiMailsReservation());
+            foreach ($users as $user) {
+                // $user->notify(new EnvoiMailsReservation());
+                Mail::to($user->email)->send(new MailTest());
+                return back()->with('success', 'Ajout effectuée avec succes');
+            }
+        }
     }
 
     /**

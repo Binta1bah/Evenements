@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailRefusReservation;
+use App\Mail\MailReservation;
+use App\Models\User;
 use App\Models\Evenement;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -51,7 +55,10 @@ class ReservationController extends Controller
         $revervation->user_id = $request->client;
         $revervation->evenement_id = $request->evenement;
 
-        $revervation->save();
+        if ($revervation->save()) {
+            $user = User::find($revervation['user_id']);
+            Mail::to($user->email)->send(new MailReservation());
+        }
 
 
 
@@ -73,7 +80,11 @@ class ReservationController extends Controller
         $reservation = Reservation::findorFail($id);
 
         $reservation->is_accepted = 0;
-        $reservation->update();
+
+        if ($reservation->update()) {
+            $user = User::find($reservation['user_id']);
+            Mail::to($user->email)->send(new MailRefusReservation());
+        }
 
         return back();
     }

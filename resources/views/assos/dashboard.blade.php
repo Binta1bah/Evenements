@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    @auth('association')
     <nav class="bg-gray-800">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
@@ -104,7 +105,7 @@
         </div>
     </nav>
 
-    @auth('association')
+
     <main class="container mx-auto mt-8">
         <div class="flex flex-wrap justify-between">
             <div class="w-full md:w-8/12 px-4 mb-8">
